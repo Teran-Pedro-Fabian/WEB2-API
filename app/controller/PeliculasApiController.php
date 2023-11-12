@@ -7,10 +7,18 @@ class PeliculasApiController
 {
     private $model;
     private $view;
+    private $data;
 
     function __construct(){
         $this->model = new PeliculasModel();
         $this->view = new ApiView();
+        // lee el body del request
+        $this->data = file_get_contents("php://input");
+    }
+
+    private function getData()
+    {
+        return json_decode($this->data);
     }
 
     function getPeliculas($params = []){
@@ -41,4 +49,32 @@ class PeliculasApiController
             $this->view->response("Complete ambos campos", 400);
         }
     }
+
+    public function insertarPelicula($params = null)
+    {
+        $datosDelForm = $this->getData();
+        if (empty($datosDelForm->nombre) || empty($datosDelForm->genero) || empty($datosDelForm->descripcion)) {
+            $this->view->response("Complete los datos", 400);
+        } else if (is_numeric($datosDelForm->clasificacion_edad) || is_numeric($datosDelForm->id_director)){
+            $id = $this->model->insertarPelicula($datosDelForm->nombre, $datosDelForm->descripcion, $datosDelForm->genero, $datosDelForm->clasificacion_edad, $datosDelForm->id_director);
+            $this->view->response($id, 201);
+        }else{
+            $this->view->response("Los campos clasificacion_edad y id_director deben ser de tipo numerico", 404);
+        }
+    }
+
+
+    function updatePelicula($nombre, $descripcion, $genero, $clasificacion_edad, $director, $id){
+        
+        if(!empty($nombre)&&!empty($descripcion)&&!empty($genero)&&!empty($clasificacion_edad)&&!empty($director)){
+            $this-> model -> editarPelicula($nombre, $descripcion, $genero, $clasificacion_edad, $director, $id);
+            
+        }else{
+            $error = "Complete los datos";
+            $this-> view -> response($error,400);
+        }
+    }
+
+
+    
 }

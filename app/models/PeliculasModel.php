@@ -29,4 +29,21 @@ class PeliculasModel{
     $peliculas = $query->fetchAll(PDO::FETCH_OBJ);
     return $peliculas;
   }
+
+
+  public function insertarPelicula($nombre, $Descripcion,$Genero, $Clasificacion_edad,$id_director){
+      $query = $this->db->prepare("INSERT INTO peliculas (Nombre, Descripcion, Genero,Clasificacion_edad,Director,id_director) VALUES (? ,? , ?, ?, ?, ?)");
+      $query->execute([$nombre, $Descripcion,$Genero, $Clasificacion_edad,0,$id_director]);
+      return $this->db->lastInsertId();
+  }
+
+
+
+
+
+  public function editarPelicula($nombre, $Descripcion,$Genero, $Clasificacion_edad,$id_director, $id)
+  {
+      $query = $this->db->prepare("UPDATE peliculas SET Nombre = ?, Descripcion = ?, Genero = ?, Clasificacion_edad= ?,Director = ? , id_director = ? WHERE ID = ?");
+      $query->execute([$nombre, $Descripcion,$Genero, $Clasificacion_edad,0,$id_director, $id]);
+  }
 }
