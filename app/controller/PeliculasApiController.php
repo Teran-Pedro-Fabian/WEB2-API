@@ -28,4 +28,17 @@ class PeliculasApiController
             $this->view->response('La pelicula con el id=' . $params[':ID'] . ' no existe.', 404);
         }
     }
+
+    function getPeliculasordenado($params){
+        if (isset($_GET['ordenarPor']) && isset($_GET['orden'])) {
+            $peliculas = $this->model->getPeliculaordenado($_GET['ordenarPor'], $_GET['orden']);
+            if (!empty($peliculas)) {
+                $this->view->response($peliculas);
+            } else {
+                $this->view->response("No se han encontrado peliculas", 404);
+            }
+        } else {
+            $this->view->response("Complete ambos campos", 400);
+        }
+    }
 }

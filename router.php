@@ -5,7 +5,7 @@
     require_once 'app/controller/PeliculasApiController.php';
     $router = new Router();
     /* api/tareas/" */
-    #                 endpoint    verbo     controller  método
+    #                 endpoint    verbo     controller           método
     $router->addRoute('peliculas','GET','PeliculasApiController','getPeliculas'); # TaskApiController->get($params)
     $router->addRoute('peliculas/:ID','GET','PeliculasApiController','getPelicula'); # TaskApiController->get($params)
 

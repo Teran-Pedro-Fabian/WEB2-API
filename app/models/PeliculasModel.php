@@ -21,4 +21,12 @@ class PeliculasModel{
     $pelicula = $sentencia->fetch(PDO::FETCH_OBJ);
     return $pelicula;
   }
+
+
+  function getPeliculaordenado($ordenarPor, $orden){
+    $query = $this->db->prepare("SELECT * FROM peliculas ORDER BY $ordenarPor $orden");
+    $query->execute();
+    $peliculas = $query->fetchAll(PDO::FETCH_OBJ);
+    return $peliculas;
+  }
 }
