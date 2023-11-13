@@ -6,7 +6,6 @@
     $router = new Router();
     
     #                 endpoint    verbo     controller           método
-  /*   $router->addRoute('peliculas','GET','PeliculasApiController','getPeliculas');  */
     $router->addRoute('peliculas/:ID','GET','PeliculasApiController','getPelicula'); 
     $router->addRoute('peliculas', 'GET','PeliculasApiController','getPeliculasordenado'); 
     $router ->addRoute('peliculas','POST', 'PeliculasApiController','insertarPelicula');

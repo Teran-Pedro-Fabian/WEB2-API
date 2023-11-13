@@ -21,10 +21,6 @@ class PeliculasApiController
         return json_decode($this->data);
     }
 
-   /*  function getPeliculas($params = []){
-        $peliculas = $this->model->getPeliculas();
-        $this->view->response($peliculas, 200);
-    } */
 
     function getPelicula($params = []){
         $pelicula = $this->model->getPelicula($params[':ID']);

@@ -7,14 +7,7 @@ class PeliculasModel{
   function __construct(){
     $this->db = new PDO('mysql:host=localhost;dbname=pelisplus;charset=utf8', 'root', '');
   }
- /*  function getPeliculas(){
 
-    $sentencia = $this->db->prepare('SELECT * FROM peliculas');
-    $sentencia->execute();
-    $peliculas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-    return $peliculas;
-  }
- */
   function getPelicula($id){
     $sentencia = $this->db->prepare('SELECT * FROM peliculas WHERE ID = ?');
     $sentencia->execute([$id]);
@@ -23,12 +16,7 @@ class PeliculasModel{
   }
 
 
-/*   function getPeliculaordenado($ordenarPor, $orden){
-    $query = $this->db->prepare("SELECT * FROM peliculas ORDER BY $ordenarPor $orden");
-    $query->execute([$ordenarPor, $orden]);
-    $peliculas = $query->fetchAll(PDO::FETCH_OBJ);
-    return $peliculas;
-  } */
+
   public function getPeliculaordenado($ordenarPor = null, $orden = null)
   {
       if ((isset($ordenarPor))&&(isset($orden))) {
