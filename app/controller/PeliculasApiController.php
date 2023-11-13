@@ -21,11 +21,10 @@ class PeliculasApiController
         return json_decode($this->data);
     }
 
-    function getPeliculas($params = []){
-        /* api/peliculas/1 */
+   /*  function getPeliculas($params = []){
         $peliculas = $this->model->getPeliculas();
         $this->view->response($peliculas, 200);
-    }
+    } */
 
     function getPelicula($params = []){
         $pelicula = $this->model->getPelicula($params[':ID']);
@@ -37,42 +36,58 @@ class PeliculasApiController
         }
     }
 
-    function getPeliculasordenado($params){
-        if (isset($_GET['ordenarPor']) && isset($_GET['orden'])) {
-            $peliculas = $this->model->getPeliculaordenado($_GET['ordenarPor'], $_GET['orden']);
-            if (!empty($peliculas)) {
-                $this->view->response($peliculas);
+    function getPeliculasordenado($params = []){
+        if (isset($_GET['ordenarPor']) || isset($_GET['orden'])) {
+            if (isset($_GET['ordenarPor']) && isset($_GET['orden'])) {
+                $peliculas = $this->model->getPeliculaordenado($_GET['ordenarPor'], $_GET['orden']);
+                if (!empty($peliculas)) {
+                    $this->view->response($peliculas);
+                } else {
+                    $this->view->response("No se han encontrado peliculas", 404);
+                }
             } else {
-                $this->view->response("No se han encontrado peliculas", 404);
+                $this->view->response("Complete ambos campos", 400);
             }
         } else {
-            $this->view->response("Complete ambos campos", 400);
+            $peliculas = $this->model->getPeliculaordenado();
+            if (!empty($peliculas)) {
+                $this->view->response($peliculas);
+            }
         }
     }
 
     public function insertarPelicula($params = null)
     {
         $datosDelForm = $this->getData();
-        if (empty($datosDelForm->nombre) || empty($datosDelForm->genero) || empty($datosDelForm->descripcion)) {
+        if (empty($datosDelForm->Nombre) || empty($datosDelForm->Genero) || empty($datosDelForm->Descripcion) || empty($datosDelForm->Clasificacion_edad) || empty($datosDelForm->Director) || empty($datosDelForm->id_director)) {
             $this->view->response("Complete los datos", 400);
-        } else if (is_numeric($datosDelForm->clasificacion_edad) || is_numeric($datosDelForm->id_director)){
-            $id = $this->model->insertarPelicula($datosDelForm->nombre, $datosDelForm->descripcion, $datosDelForm->genero, $datosDelForm->clasificacion_edad, $datosDelForm->id_director);
-            $this->view->response($id, 201);
+        } else if (is_numeric($datosDelForm->Clasificacion_edad) || is_numeric($datosDelForm->id_director)){
+            $id = $this->model->insertarPelicula($datosDelForm->Nombre, $datosDelForm->Descripcion, $datosDelForm->Genero, $datosDelForm->Clasificacion_edad,$datosDelForm->Director, $datosDelForm->id_director);
+            $this->view->response("Se creo una pelicula con el id = ".$id, 201);
         }else{
             $this->view->response("Los campos clasificacion_edad y id_director deben ser de tipo numerico", 404);
         }
     }
 
 
-    function updatePelicula($nombre, $descripcion, $genero, $clasificacion_edad, $director, $id){
-        
-        if(!empty($nombre)&&!empty($descripcion)&&!empty($genero)&&!empty($clasificacion_edad)&&!empty($director)){
-            $this-> model -> editarPelicula($nombre, $descripcion, $genero, $clasificacion_edad, $director, $id);
-            
-        }else{
-            $error = "Complete los datos";
-            $this-> view -> response($error,400);
+    function updatePelicula($params = null){
+       $id = $params[':ID'];
+       $peliQueVoyAEditar = $this->model->getPelicula($id);
+       if (isset($peliQueVoyAEditar)) {
+        $datosDelForm = $this->getData(); 
+      
+        $peliculaEditada = $this->model->editarPelicula($id,$datosDelForm->Nombre,
+        $datosDelForm->Genero,
+        $datosDelForm->Descripcion,
+        $datosDelForm->Clasificacion_edad,
+        $datosDelForm->Director,
+        $datosDelForm->id_director);
+        $peliculaEditada=$this->model->getPelicula($id);
+        $this->view->response($peliculaEditada,200);
+       }else {
+        $this->view->response("No puede dejar estos campos sin completar", 400);
         }
+
     }
 
 

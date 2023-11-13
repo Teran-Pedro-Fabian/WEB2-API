@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2023 a las 20:25:04
+-- Tiempo de generación: 13-11-2023 a las 20:04:56
 -- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,9 +41,10 @@ CREATE TABLE `directores` (
 --
 
 INSERT INTO `directores` (`id_director`, `Director`, `Apellido`, `Edad`, `Premios`, `MayorExito`) VALUES
-(1, 'asd', 'SHON', 23, 88, 9),
-(2, 'Lanzani', 'PEDRO', 27, 2, 3),
-(10, 'LUJAN', 'LICAS', 20, 4, 2);
+(1, 'Andy', 'Muschetti', 34, 0, 0),
+(2, 'Peter', 'Jackson', 55, 0, 0),
+(3, 'Ari', 'Aster', 45, 0, 0),
+(4, 'Darren', 'Aranofsky', 55, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -57,7 +58,7 @@ CREATE TABLE `peliculas` (
   `Descripcion` text NOT NULL,
   `Genero` varchar(20) NOT NULL,
   `Clasificacion_edad` int(2) NOT NULL,
-  `Director` int(30) NOT NULL,
+  `Director` varchar(30) NOT NULL,
   `id_director` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -66,9 +67,14 @@ CREATE TABLE `peliculas` (
 --
 
 INSERT INTO `peliculas` (`ID`, `Nombre`, `Descripcion`, `Genero`, `Clasificacion_edad`, `Director`, `id_director`) VALUES
-(4, 'IT2', 'Pelicula de Payaso malvado', 'Terror', 16, 0, 1),
-(7, 'TOYS STORY 4', 'pelicula sobre juguetes', 'infantil', 10, 0, 1),
-(8, 'Lucas', 'Lujan', 'terror', 1, 0, 1);
+(4, 'It2', 'Terror', 'Pelicula', 18, 'Andy Muschietti', 1),
+(12, 'Alien', 'Esta es una peli de aliens', 'Ciencia ficcion', 18, '0', 2),
+(13, 'Requiem for a dream', 'Buena peli', 'Suspenso', 18, '0', 4),
+(14, 'La ballena', 'Muy Buena peli', 'Drama', 18, 'Darren Aranofsky', 4),
+(15, 'Midssomar', 'Esta es una movie de terror', 'Terror', 18, 'Ari Aster', 3),
+(16, 'Noe', 'Esta es una movie biblica', 'Ciencia Ficcion', 18, 'Darren Aranofsky', 4),
+(17, 'Noe', 'Esta es una movie biblica', 'Ciencia Ficcion', 18, 'Darren Aranofsky', 4),
+(18, 'Noe', 'Esta es una movie biblica', 'Ciencia Ficcion', 18, 'Darren Aranofsky', 4);
 
 -- --------------------------------------------------------
 
@@ -121,13 +127,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `directores`
 --
 ALTER TABLE `directores`
-  MODIFY `id_director` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_director` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas`
 --
 ALTER TABLE `peliculas`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
